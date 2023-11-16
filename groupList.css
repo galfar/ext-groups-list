@@ -1,0 +1,50 @@
+body {
+    --back-color: #f0f0e0;
+
+    min-width: 360px; 
+    height: auto;
+    overflow: hidden;
+
+    font-size: 100%;
+    color: #0f0f0f;
+    background-color: var(--back-color);
+}
+
+#tabGroupsList {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+#tabGroupsList li {                
+    --group-color: silver;  
+    --group-back-color: color-mix(in srgb, var(--group-color) 10%, var(--back-color));
+    cursor: pointer;      
+    background-color: var(--group-back-color);   
+    border-radius: 6px;
+    border: solid 1px transparent; 
+    padding: 0.1em;
+}
+
+#tabGroupsList li:hover { 
+    border: solid 1px color-mix(in srgb, var(--group-color) 35%, var(--back-color)); 
+}               
+
+#tabGroupsList li:not(:last-child) {
+    margin-bottom: 0.3em;
+}
+
+#tabGroupsList li:before {
+    content: "\00a0";
+    display: inline-block;    
+    width: 1em;   
+    background-color: var(--group-color); 
+    border-radius: 1em;
+    margin-right: 0.5em;
+}
+
+#tabGroupsList li span {                
+    margin-left: 0.5em;
+    font-size: 80%;
+    color: gray;
+}
+
