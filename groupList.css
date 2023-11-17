@@ -10,6 +10,15 @@ body {
     background-color: var(--back-color);
 }
 
+h4 { 
+    margin: 0px;
+}
+
+summary {
+    font-size: 90%;
+    color: #606060;
+}
+
 #tabGroupsList {
     list-style-type: none;
     padding-left: 0px;
@@ -44,7 +53,7 @@ body {
 
 #tabGroupsList li span {                
     margin-left: 0.5em;
-    font-size: 80%;
+    font-size: 75%;
     color: gray;
 }
 

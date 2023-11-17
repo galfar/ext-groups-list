@@ -1,11 +1,27 @@
-chrome.tabGroups.query({ }, groups => {
-    const tabGroupsList = document.getElementById('tabGroupsList');
-    
-    groups.forEach(group => {
-        const listItem = createGroupListItem(group);
-        tabGroupsList.appendChild(listItem);
-    });
-});
+const tabGroups = await chrome.tabGroups.query({ });
+let tabsOfGroups = { };
+
+for (const group of tabGroups) {
+    const groupId = group.id;
+    // Get tabs in the group - for showing the count and to be able to 
+    // activate some tab when the group list item is clicked
+    const tabsInGroup = await chrome.tabs.query({ groupId });
+    tabsOfGroups[groupId] = tabsInGroup;
+}
+
+const totalTabCount = (await chrome.tabs.query({ })).length;
+const windowCount = (await chrome.windows.getAll({ })).length;
+const groupedTabCount = Object.values(tabsOfGroups).reduce((count, tabs) => count + tabs.length, 0);
+
+const statusText = `You have ${totalTabCount} tabs open across ${windowCount} windows, ` + 
+    `${groupedTabCount} tabs are grouped in ${tabGroups.length} groups.`;
+document.getElementById("status").textContent = statusText;
+
+const tabGroupsListElem = document.getElementById('tabGroupsList');
+for (const group of tabGroups) {    
+    const listItem = createGroupListItem(group);
+    tabGroupsListElem.appendChild(listItem);
+}
 
 function createGroupListItem(group) {
     let listItem = document.createElement('li');
@@ -16,9 +32,8 @@ function createGroupListItem(group) {
     // No way to get the final color from extension API (yet).
     listItem.style.setProperty("--group-color", group.color);
 
-    const tabCount = 7; // TODO
-
     let detailsSpan = document.createElement('span');
+    const tabCount = tabsOfGroups[group.id].length;
     detailsSpan.textContent = `(${tabCount} tabs)`;
     listItem.appendChild(detailsSpan);
 
@@ -29,16 +44,15 @@ function createGroupListItem(group) {
     return listItem;
 }
 
-function activateFirstTabInGroup(group) {
-    const groupId = group.id;
-    const windowId = group.windowId;
+function activateFirstTabInGroup(group) {        
+    const tabs = tabsOfGroups[group.id];
 
-    chrome.tabs.query({ groupId }, tabs => {
-        if (tabs.length > 0) {
-            const tabId = tabs[0].id;
-            chrome.windows.update(windowId, { focused: true }, () => {
-                chrome.tabs.update(tabId, { active: true })
-            });
-        }
-    });
+    if (tabs.length > 0) {
+        const windowId = group.windowId;
+        const tabId = tabs[0].id;
+
+        chrome.windows.update(windowId, { focused: true }, () => {
+            chrome.tabs.update(tabId, { active: true })
+        });
+    }
 }
