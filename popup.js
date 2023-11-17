@@ -1,26 +1,38 @@
-const tabGroups = await chrome.tabGroups.query({ });
 let tabsOfGroups = { };
+buildGroupsListing();
 
-for (const group of tabGroups) {
-    const groupId = group.id;
-    // Get tabs in the group - for showing the count and to be able to 
-    // activate some tab when the group list item is clicked
-    const tabsInGroup = await chrome.tabs.query({ groupId });
-    tabsOfGroups[groupId] = tabsInGroup;
-}
+async function buildGroupsListing() {
+    const totalTabCount = (await chrome.tabs.query({ })).length;
+    const windowCount = (await chrome.windows.getAll({ })).length;
 
-const totalTabCount = (await chrome.tabs.query({ })).length;
-const windowCount = (await chrome.windows.getAll({ })).length;
-const groupedTabCount = Object.values(tabsOfGroups).reduce((count, tabs) => count + tabs.length, 0);
+    if (!chrome.tabGroups) {
+        // Browser with no tabGroups extension support e.g. Opera GX.         
+        const statusText = `You have ${totalTabCount} tabs open across ${windowCount} window(s).<br/>` + 
+        `Tab groups are not supported in this browser's extension API.`; 
+        document.getElementById("status").innerHTML = statusText;
+        return;
+    }
 
-const statusText = `You have ${totalTabCount} tabs open across ${windowCount} windows, ` + 
-    `${groupedTabCount} tabs are grouped in ${tabGroups.length} groups.`;
-document.getElementById("status").textContent = statusText;
+    const tabGroups = await chrome.tabGroups.query({ });
+    
+    for (const group of tabGroups) {
+        const groupId = group.id;
+        // Get tabs in the group - for showing the count and to be able to 
+        // activate some tab when the group list item is clicked
+        const tabsInGroup = await chrome.tabs.query({ groupId });
+        tabsOfGroups[groupId] = tabsInGroup;
+    }
 
-const tabGroupsListElem = document.getElementById('tabGroupsList');
-for (const group of tabGroups) {    
-    const listItem = createGroupListItem(group);
-    tabGroupsListElem.appendChild(listItem);
+    const groupedTabCount = Object.values(tabsOfGroups).reduce((count, tabs) => count + tabs.length, 0);
+    const statusText = `You have ${totalTabCount} tabs open across ${windowCount} window(s), ` + 
+        `${groupedTabCount} tabs are grouped in ${tabGroups.length} groups.`;
+    document.getElementById("status").textContent = statusText;
+
+    const tabGroupsListElem = document.getElementById('tabGroupsList');
+    for (const group of tabGroups) {    
+        const listItem = createGroupListItem(group);
+        tabGroupsListElem.appendChild(listItem);
+    }
 }
 
 function createGroupListItem(group) {

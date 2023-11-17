@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tab Group List",
-  "version": "0.2",
+  "version": "0.3.0",
   "description": "Lists existing tab groups.",
   "permissions": [
     "tabGroups"
