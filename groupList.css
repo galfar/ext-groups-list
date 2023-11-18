@@ -1,12 +1,14 @@
 body {
     --back-color: #f0f0e0;
+    --text-color: #0f0f0f;
+    --subdued-text-color: #686868;
 
     min-width: 360px; 
     height: auto;
     overflow: hidden;
 
     font-size: 100%;
-    color: #0f0f0f;
+    color: var(--text-color);
     background-color: var(--back-color);
 }
 
@@ -16,7 +18,7 @@ h4 {
 
 summary {
     font-size: 90%;
-    color: #606060;
+    color: var(--subdued-text-color);
 }
 
 #tabGroupsList {
@@ -27,11 +29,16 @@ summary {
 #tabGroupsList li {                
     --group-color: silver;  
     --group-back-color: color-mix(in srgb, var(--group-color) 10%, var(--back-color));
-    cursor: pointer;      
+    cursor: pointer; 
+    color: var(--text-color);     
     background-color: var(--group-back-color);   
     border-radius: 6px;
     border: solid 1px transparent; 
     padding: 0.1em;
+}
+
+#tabGroupsList li.no-name {           
+    color: var(--subdued-text-color);     
 }
 
 #tabGroupsList li:hover { 

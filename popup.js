@@ -37,7 +37,14 @@ async function buildGroupsListing() {
 
 function createGroupListItem(group) {
     let listItem = document.createElement('li');
-    listItem.textContent = group.title || '(Unnamed Group)';        
+    
+    if (group.title) {
+        listItem.textContent = group.title;
+    } else {
+        listItem.textContent = '(No name)';        
+        listItem.classList.add("no-name");
+    }
+
     // NOTE: group color is just an enum. It maps to CSS colors
     // but browsers can have different mapping to final colors
     // (and they do, see the ugly color palette in Edge).
