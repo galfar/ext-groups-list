@@ -1,9 +1,9 @@
 body {
-    --back-color: #f0f0e0;
+    --back-color: #f0f0ea;
     --text-color: #0f0f0f;
     --subdued-text-color: #686868;
 
-    min-width: 360px; 
+    min-width: 660px; 
     height: auto;
     overflow: hidden;
 
@@ -21,15 +21,21 @@ summary {
     color: var(--subdued-text-color);
 }
 
-#tabGroupsList {
+ul#tabGroupsList {
     list-style-type: none;
+    columns: 2;
+    column-gap: 0.6em;
     padding-left: 0px;
+    margin-bottom: 0.5rem;
 }
 
 #tabGroupsList li {                
     --group-color: silver;  
     --group-back-color: color-mix(in srgb, var(--group-color) 10%, var(--back-color));
     cursor: pointer; 
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     color: var(--text-color);     
     background-color: var(--group-back-color);   
     border-radius: 6px;
@@ -51,10 +57,11 @@ summary {
 
 #tabGroupsList li:before {
     content: "\00a0";
-    display: inline-block;    
     width: 1em;   
+    height: 1em;
+    color: var(--group-color); 
     background-color: var(--group-color); 
-    border-radius: 1em;
+    border-radius: 2em;
     margin-right: 0.5em;
 }
 
