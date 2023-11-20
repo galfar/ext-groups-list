@@ -1,13 +1,24 @@
+html {
+    --popup-width: 320px;
+    --list-columns: 1;
+
+    --popup-width-2col: 600px;
+    --list-columns-2col: 2;
+    --popup-width-3col: 800px;
+    --list-columns-3col: 3;
+
+    width: var(--popup-width); 
+    height: auto;
+}
+
 body {
     --back-color: #f0f0ea;
     --text-color: #0f0f0f;
     --subdued-text-color: #686868;
-
-    min-width: 660px; 
-    height: auto;
-    overflow: hidden;
-
+    
     font-size: 100%;
+    margin: 0.25em 0.5em;
+
     color: var(--text-color);
     background-color: var(--back-color);
 }
@@ -23,10 +34,10 @@ summary {
 
 ul#tabGroupsList {
     list-style-type: none;
-    columns: 2;
-    column-gap: 0.6em;
+    columns: var(--list-columns);
+    column-gap: 0.5em;
     padding-left: 0px;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
 }
 
 #tabGroupsList li {                
@@ -62,11 +73,11 @@ ul#tabGroupsList {
     color: var(--group-color); 
     background-color: var(--group-color); 
     border-radius: 2em;
-    margin-right: 0.5em;
+    margin-right: 0.3em;
 }
 
 #tabGroupsList li span {                
-    margin-left: 0.5em;
+    margin-left: 0.3em;
     font-size: 75%;
     color: gray;
 }

@@ -33,11 +33,13 @@ async function buildGroupsListing() {
         const listItem = createGroupListItem(group);
         tabGroupsListElem.appendChild(listItem);
     }
+
+    adjustDisplayModeIfNeeded(tabGroupsListElem);
 }
 
 function createGroupListItem(group) {
     let listItem = document.createElement('li');
-    
+
     if (group.title) {
         listItem.textContent = group.title;
     } else {
@@ -71,7 +73,23 @@ function activateFirstTabInGroup(group) {
         const tabId = tabs[0].id;
 
         chrome.windows.update(windowId, { focused: true }, () => {
-            chrome.tabs.update(tabId, { active: true })
+            chrome.tabs.update(tabId, { active: true });
+            window.close();
         });
+    }
+}
+
+function adjustDisplayModeIfNeeded() {
+    // Max extension popup height is now 600px
+    const maxAllowedHeight = 590;   
+
+    // Browser will reflow DOM on changes but should not repaint immediately
+    if (document.body.clientHeight > maxAllowedHeight) {
+        document.documentElement.style.setProperty("--list-columns", "var(--list-columns-2col)");
+        document.documentElement.style.setProperty("--popup-width", "var(--popup-width-2col)");
+    }
+    if (document.body.clientHeight > maxAllowedHeight) {
+        document.documentElement.style.setProperty("--list-columns", "var(--list-columns-3col)");
+        document.documentElement.style.setProperty("--popup-width", "var(--popup-width-3col)");
     }
 }

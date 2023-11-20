@@ -1,18 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Tab Group List",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Lists all tab groups across all browser windows. On a click navigates to the selected group.",
   "permissions": [
     "tabGroups"
   ],
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-    }
+    "default_popup": "popup.html"    
   },
   "icons": {
     "16": "icon16.png",
