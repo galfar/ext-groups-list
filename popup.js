@@ -38,25 +38,30 @@ async function buildGroupsListing() {
 }
 
 function createGroupListItem(group) {
-    let listItem = document.createElement('li');
+    let titleSpan = document.createElement('span');
+    titleSpan.classList.add("title");
 
     if (group.title) {
-        listItem.textContent = group.title;
+        titleSpan.textContent = group.title;
     } else {
-        listItem.textContent = '(No name)';        
-        listItem.classList.add("no-name");
+        titleSpan.textContent = '(No name)';        
+        titleSpan.classList.add("no-name");
     }
+
+    let detailsSpan = document.createElement('span');
+    detailsSpan.classList.add("detail");
+    const tabCount = tabsOfGroups[group.id].length;
+    detailsSpan.textContent = `(${tabCount} tabs)`;
+
+    let listItem = document.createElement('li');
+    listItem.appendChild(titleSpan);
+    listItem.appendChild(detailsSpan);
 
     // NOTE: group color is just an enum. It maps to CSS colors
     // but browsers can have different mapping to final colors
     // (and they do, see the ugly color palette in Edge).
     // No way to get the final color from extension API (yet).
     listItem.style.setProperty("--group-color", group.color);
-
-    let detailsSpan = document.createElement('span');
-    const tabCount = tabsOfGroups[group.id].length;
-    detailsSpan.textContent = `(${tabCount} tabs)`;
-    listItem.appendChild(detailsSpan);
 
     listItem.addEventListener('click', () => {
         activateFirstTabInGroup(group);

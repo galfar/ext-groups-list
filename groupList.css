@@ -43,8 +43,7 @@ ul#tabGroupsList {
 #tabGroupsList li {                
     --group-color: silver;      
     --left-border-def: solid 0.4em color-mix(in srgb, var(--group-color) 70%, var(--back-color));
-    cursor: pointer;    
-    color: var(--text-color);         
+    cursor: pointer;        
     padding: 0.2em;
     padding-left: 0.3em;
     background-color: color-mix(in srgb, var(--group-color) 10%, var(--back-color));
@@ -53,7 +52,17 @@ ul#tabGroupsList {
     border-left: var(--left-border-def);
 }
 
-#tabGroupsList li.no-name {           
+#tabGroupsList li span.title {                
+    color: var(--text-color);         
+}
+
+#tabGroupsList li span.detail {                
+    margin-left: 0.3em;
+    font-size: 75%;
+    color: gray;
+}
+
+#tabGroupsList li.span.title.no-name {           
     color: var(--subdued-text-color);     
 }
 
@@ -67,9 +76,4 @@ ul#tabGroupsList {
     margin-bottom: 0.3em;
 }
 
-#tabGroupsList li span {                
-    margin-left: 0.3em;
-    font-size: 75%;
-    color: gray;
-}
 
