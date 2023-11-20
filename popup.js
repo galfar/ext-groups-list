@@ -7,8 +7,8 @@ async function buildGroupsListing() {
 
     if (!chrome.tabGroups) {
         // Browser with no tabGroups extension support e.g. Opera GX.         
-        const statusText = `You have ${totalTabCount} tabs open across ${windowCount} window(s).<br/>` + 
-        `Tab groups are not supported in this browser's extension API.`; 
+        const statusText = `You have ${pluralize(totalTabCount, "tab")} open across ${pluralize(windowCount, "window")}.<br/>` + 
+        `<b>Tab groups are not supported in this browser's extension API.</b>`; 
         document.getElementById("status").innerHTML = statusText;
         return;
     }
@@ -24,8 +24,8 @@ async function buildGroupsListing() {
     }
 
     const groupedTabCount = Object.values(tabsOfGroups).reduce((count, tabs) => count + tabs.length, 0);
-    const statusText = `You have ${totalTabCount} tabs open across ${windowCount} window(s), ` + 
-        `${groupedTabCount} tabs are grouped in ${tabGroups.length} groups.`;
+    const statusText = `You have ${pluralize(totalTabCount, "tab")} open across ${pluralize(windowCount, "window")}, ` + 
+        `${pluralize(groupedTabCount, "tab")} are grouped in ${pluralize(tabGroups.length, "group")}.`;
     document.getElementById("status").textContent = statusText;
 
     const tabGroupsListElem = document.getElementById('tabGroupsList');
@@ -92,4 +92,9 @@ function adjustDisplayModeIfNeeded() {
         document.documentElement.style.setProperty("--list-columns", "var(--list-columns-3col)");
         document.documentElement.style.setProperty("--popup-width", "var(--popup-width-3col)");
     }
+}
+
+function pluralize(count, noun) {
+    const pluralSuffix = 's';
+    return `${count} ${noun}${count !== 1 ? pluralSuffix : ''}`;
 }
