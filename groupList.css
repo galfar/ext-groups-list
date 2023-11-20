@@ -41,17 +41,16 @@ ul#tabGroupsList {
 }
 
 #tabGroupsList li {                
-    --group-color: silver;  
-    --group-back-color: color-mix(in srgb, var(--group-color) 10%, var(--back-color));
-    cursor: pointer; 
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    color: var(--text-color);     
-    background-color: var(--group-back-color);   
+    --group-color: silver;      
+    --left-border-def: solid 0.4em color-mix(in srgb, var(--group-color) 70%, var(--back-color));
+    cursor: pointer;    
+    color: var(--text-color);         
+    padding: 0.2em;
+    padding-left: 0.3em;
+    background-color: color-mix(in srgb, var(--group-color) 10%, var(--back-color));
     border-radius: 6px;
-    border: solid 1px transparent; 
-    padding: 0.1em;
+    border: solid 1px color-mix(in srgb, var(--group-color) 20%, var(--back-color));    
+    border-left: var(--left-border-def);
 }
 
 #tabGroupsList li.no-name {           
@@ -59,21 +58,13 @@ ul#tabGroupsList {
 }
 
 #tabGroupsList li:hover { 
-    border: solid 1px color-mix(in srgb, var(--group-color) 35%, var(--back-color)); 
+    background-color: color-mix(in srgb, var(--group-color) 15%, var(--back-color));
+    border-color: color-mix(in srgb, var(--group-color) 40%, var(--back-color));     
+    border-left: var(--left-border-def);
 }               
 
 #tabGroupsList li:not(:last-child) {
     margin-bottom: 0.3em;
-}
-
-#tabGroupsList li:before {
-    content: "\00a0";
-    width: 1em;   
-    height: 1em;
-    color: var(--group-color); 
-    background-color: var(--group-color); 
-    border-radius: 2em;
-    margin-right: 0.3em;
 }
 
 #tabGroupsList li span {                
