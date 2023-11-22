@@ -19,8 +19,9 @@ body {
     --subdued-text-color: #686868;
     
     font-size: 100%;
-    margin: 0.25em 0.5em;
-
+    margin: 0;
+    padding: 0.25em 0.5em;
+    
     color: var(--text-color);
     background-color: var(--back-color);
 }
@@ -65,7 +66,7 @@ ul#tabGroupsList {
     color: gray;
 }
 
-#tabGroupsList li.span.title.no-name {           
+#tabGroupsList li span.title.no-name {           
     color: var(--subdued-text-color);     
 }
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tab Groups List",
-  "version": "0.6.0",
+  "version": "0.6.7",
   "description": "Lists all tab groups across all browser windows. On a click navigates to the selected group.",
   "permissions": [
     "tabGroups"

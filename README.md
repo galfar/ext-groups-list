@@ -7,12 +7,12 @@ activates the first tab in that group and focuses its browser window if needed.
 The purpose of the extension is to allow users to quickly find 
 specific tab group and navigate to it - useful especially for tab hoarders with many groups across many windows. 
 
-The extensions tries to maximize the number of groups visible
+The extension tries to maximize the number of groups visible
 without scrolling (as extension popup window size is limited by the browser) by displaying them in 1 to 3 columns based on the number of groups to show.
 
 Browsers currently list all the groups (without their tabs) only in 
 the "Add tab to group" context menu - not very useful when you just want to jump to the group without adding anything. 
-And search function often (depends on browser) only checks tabs and not group titles. 
+And the search function often (depends on browser) only checks tabs and not group titles. 
 
 There is no group management or messing with individual tabs in this extension, you can find nice ones for that already or have built-in support. 
 
