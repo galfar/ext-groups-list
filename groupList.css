@@ -1,4 +1,5 @@
 html {
+    /* Max extension popup size is now 800x600px */
     --popup-width: 320px;
     --list-columns: 1;
 
@@ -9,6 +10,7 @@ html {
 
     width: var(--popup-width); 
     height: auto;
+    min-height: 200px;
 }
 
 body {
@@ -23,8 +25,9 @@ body {
     background-color: var(--back-color);
 }
 
-h4 { 
-    margin: 0px;
+div#header {
+    display: flex;
+    justify-content: space-between;
 }
 
 summary {
@@ -76,4 +79,50 @@ ul#tabGroupsList {
     margin-bottom: 0.3em;
 }
 
+span#info-btn:before {
+    content: "\2139";
+    font-family: serif;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;    
+    color: white;
+    background-color: cornflowerblue;
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+}
 
+dialog {    
+    flex-direction: column;
+    align-items: center;
+    padding: 0.6em 3em;
+    background-color:ivory;
+    border: solid 2px steelblue;
+    border-radius: 0.5em;      
+}
+
+dialog[open] {
+    display: flex;
+}
+
+dialog h4 { 
+    margin: 0.2em;   
+}
+
+dialog a {
+    color: royalblue;
+}
+
+dialog a, dialog span {
+    font-size: 90%;
+}
+
+dialog::backdrop {    
+    background: rgba(0, 0, 0, 0.33);
+}
+
+dialog form {
+    margin-top: 0.7em;
+    font-size: large;
+    text-align: end;
+}

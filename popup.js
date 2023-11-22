@@ -1,3 +1,7 @@
+document.getElementById("info-btn").onclick = () => {
+    document.getElementById("dialog").showModal();
+}
+
 let tabsOfGroups = { };
 buildGroupsListing();
 
@@ -103,3 +107,4 @@ function pluralize(count, noun) {
     const pluralSuffix = 's';
     return `${count} ${noun}${count !== 1 ? pluralSuffix : ''}`;
 }
+

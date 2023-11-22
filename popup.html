@@ -5,10 +5,28 @@
     <link rel="stylesheet" href="groupList.css">    
 </head>
 <body>
-    <h4>Tab Groups List</h4>
-    <summary id="status"></summary>
+    <div id="header">        
+        <summary id="status"></summary>
+        <span id="info-btn"></span>    
+    </div>
+    
     <ul id="tabGroupsList"></ul>
+      
+    <dialog id="dialog">        
+        <h4>Tab Groups List</h4>
+        <span>by Marek Mauder</span>
+        <a href="https://github.com/galfar/ext-groups-list" target="_blank">
+            Visit GitHub page
+        </a>
+        <a href="https://chrome.google.com/webstore/detail/tab-groups-list/poijigbgelgofcabnmlmaiclcmgfmabk/reviews" target="_blank">
+            Write a review
+        </a>
         
+        <form method="dialog">
+          <button autofocus>Close</button>
+        </form>
+      </dialog>
+
     <script type="module" src="./popup.js"></script>    
 </body>
 </html>
