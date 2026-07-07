@@ -31,7 +31,7 @@ div#header {
     justify-content: space-between;
 }
 
-summary {
+span#status {
     font-size: 90%;
     color: var(--subdued-text-color);
 }
