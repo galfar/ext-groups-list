@@ -91,25 +91,28 @@ function createGroupListItem(group: chrome.tabGroups.TabGroup): HTMLLIElement {
     listItem.style.setProperty("--group-color", group.color);
 
     listItem.addEventListener("click", () => {
-        activateFirstTabInGroup(group);
+        activateTabInGroup(group);
     });
 
     return listItem;
 }
 
-function activateFirstTabInGroup(group: chrome.tabGroups.TabGroup): void {
+function activateTabInGroup(group: chrome.tabGroups.TabGroup): void {
     const tabs = tabsOfGroups[group.id];
 
     if (tabs.length > 0) {
         const windowId = group.windowId;
-        const tabId = tabs[0].id;
-
-        if (tabId === undefined) {
-            return;
-        }
+        const activeTabInGroup = tabs.find(tab => tab.active);
 
         chrome.windows.update(windowId, { focused: true }, () => {
-            chrome.tabs.update(tabId, { active: true });
+            if (!activeTabInGroup) {
+                // No tab in this group is currently active in its window,
+                // activate the first tab in the group.
+                const tabId = tabs[0].id;
+                chrome.tabs.update(tabId, { active: true });
+            }
+            // If a tab in the group is already active, just focusing
+            // the window is enough — leave the active tab untouched
             window.close();
         });
     }

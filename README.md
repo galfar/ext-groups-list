@@ -1,18 +1,12 @@
 # Tab Groups List - Browser Extension
 
-A simple extension (Chrome API) that shows a list of
-*all tab groups across all browser windows* in a popup. Clicking the group
-activates the first tab in that group and focuses its browser window if needed.
+A simple extension (Chrome API) that shows a list of *all tab groups across all browser windows* in a popup. Clicking the group activates the first tab in that group and focuses its browser window if needed.
 
-The purpose of the extension is to allow users to quickly find
-specific tab group and navigate to it - useful especially for tab hoarders with many groups across many windows.
+The purpose of the extension is to allow users to quickly find specific tab group and navigate to it - useful especially for tab hoarders with many groups across many windows.
 
-The extension tries to maximize the number of groups visible
-without scrolling (as extension popup window size is limited by the browser) by displaying them in 1 to 3 columns based on the number of groups to show.
+The extension tries to maximize the number of groups visible without scrolling (as extension popup window size is limited by the browser) by displaying them in 1 to 3 columns based on the number of groups to show.
 
-Browsers currently list all the groups (without their tabs) only in
-the "Add tab to group" context menu - not very useful when you just want to jump to the group without adding anything.
-And the search function often (depends on browser) only checks tabs and not group titles.
+Browsers currently list all the groups (without their tabs) only in the "Add tab to group" context menu - not very useful when you just want to jump to the group without adding anything. And the search function often (depends on browser) only checks tabs and not group titles.
 
 There is no group management or messing with individual tabs in this extension, you can find nice ones for that already or have built-in support.
 
@@ -34,9 +28,9 @@ As of late 2023:
 ## Future Plans (Maybe)
 
 - ~~Two column display option: As extension popup's height is limited by the browser, longer lists now show a vertical scrollbar and thus the user cannot see all the groups at a glance. Maximum popup width is quite big so two (maybe even three) would fit nicely.~~
-  Implemented now with auto switching, nice would be also explicit user options: auto, single, two, three columns.
-- When switching to group A: if the currently active tab in window is part of group A,
-  do not activate the first tab of group A - keep the current one active.
+  **Implemented now with auto switching**, nice would be also explicit user options: auto, single, two, three columns.
+- ~~When switching to group A: if the currently active tab in window is part of group A,
+  do not activate the first tab of group A - keep the current one active.~~ **Done**
 - Sorting: at least switch between default and alphabetical.
 - Search or highlight or filter list by group title.
 - Default + Compact + EasyToClick view: user option to fit even more stuff in popup or in opposite direction make text and items bigger for easier clicking or touches.
