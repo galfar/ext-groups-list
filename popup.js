@@ -18,15 +18,17 @@ async function buildGroupsListing() {
     }
 
     const tabGroups = await chrome.tabGroups.query({ });
-    
-    for (const group of tabGroups) {
-        const groupId = group.id;
-        // Get tabs in the group - for showing the count and to be able to 
-        // activate some tab when the group list item is clicked
-        const tabsInGroup = await chrome.tabs.query({ groupId });
-        tabsOfGroups[groupId] = tabsInGroup;
-    }
 
+    // Get tabs in the group - for showing the count and to be able to 
+    // activate some tab when the group list item is clicked.
+    // Fetch tabs for all groups in parallel (Promise.all preserves order). 
+    const tabsPerGroup = await Promise.all(
+        tabGroups.map(group => chrome.tabs.query({ groupId: group.id }))
+    );
+    tabGroups.forEach((group, index) => {
+        tabsOfGroups[group.id] = tabsPerGroup[index];
+    });
+    
     const groupedTabCount = Object.values(tabsOfGroups).reduce((count, tabs) => count + tabs.length, 0);
     const statusText = `You have ${pluralize(totalTabCount, "tab")} open across ${pluralize(windowCount, "window")}, ` + 
         `${pluralize(groupedTabCount, "tab")} are grouped in ${pluralize(tabGroups.length, "group")}.`;
