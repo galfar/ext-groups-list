@@ -40,7 +40,7 @@ async function buildGroupsListing() {
         tabGroupsListElem.appendChild(listItem);
     }
 
-    adjustDisplayModeIfNeeded(tabGroupsListElem);
+    adjustDisplayModeIfNeeded();
 }
 
 function createGroupListItem(group) {
@@ -93,15 +93,21 @@ function activateFirstTabInGroup(group) {
 function adjustDisplayModeIfNeeded() {
     // Max extension popup height is now 600px
     const maxAllowedHeight = 590;   
+    
+    // Popup starts with 1 column. If the height exceeds the max allowed height, switch to 2 columns
+    // and eventually to 3 columns. 
 
-    // Browser will reflow DOM on changes but should not repaint immediately
     if (document.body.clientHeight > maxAllowedHeight) {
         document.documentElement.style.setProperty("--list-columns", "var(--list-columns-2col)");
         document.documentElement.style.setProperty("--popup-width", "var(--popup-width-2col)");
-    }
-    if (document.body.clientHeight > maxAllowedHeight) {
-        document.documentElement.style.setProperty("--list-columns", "var(--list-columns-3col)");
-        document.documentElement.style.setProperty("--popup-width", "var(--popup-width-3col)");
+
+        // Force reflow before re-measuring height
+        void document.body.offsetHeight;
+
+        if (document.body.clientHeight > maxAllowedHeight) {
+            document.documentElement.style.setProperty("--list-columns", "var(--list-columns-3col)");
+            document.documentElement.style.setProperty("--popup-width", "var(--popup-width-3col)");
+        }
     }
 }
 
