@@ -119,21 +119,25 @@ function activateTabInGroup(group: chrome.tabGroups.TabGroup): void {
     }
 }
 
-function adjustDisplayModeIfNeeded(): void {
-    // Max extension popup height is now 600px
-    const maxAllowedHeight = 590;
-
+function adjustDisplayModeIfNeeded() {
     // Popup starts with 1 column. If the height exceeds the max allowed height, switch to 2 columns
     // and eventually to 3 columns.
+    // Max extension popup height is now 600px.
 
-    if (document.body.clientHeight > maxAllowedHeight) {
+    const scrollArea = getElementByIdStrict('scrollArea');    
+
+    // scrollHeight > clientHeight means content needs more room than
+    // the flex-allocated space currently provides — i.e. it's scrolling.
+    const isOverflowing = () => scrollArea.scrollHeight > scrollArea.clientHeight;
+
+    if (isOverflowing()) {
         document.documentElement.style.setProperty("--list-columns", "var(--list-columns-2col)");
         document.documentElement.style.setProperty("--popup-width", "var(--popup-width-2col)");
 
         // Force reflow before re-measuring height
-        void document.body.offsetHeight;
+        void scrollArea.offsetHeight; 
 
-        if (document.body.clientHeight > maxAllowedHeight) {
+        if (isOverflowing()) {
             document.documentElement.style.setProperty("--list-columns", "var(--list-columns-3col)");
             document.documentElement.style.setProperty("--popup-width", "var(--popup-width-3col)");
         }

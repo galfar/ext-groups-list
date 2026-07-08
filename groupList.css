@@ -8,9 +8,10 @@ html {
     --popup-width-3col: 800px;
     --list-columns-3col: 3;
 
-    width: var(--popup-width); 
-    height: auto;
-    min-height: 200px;
+    --max-popup-height: 600px;  
+
+    width: var(--popup-width);     
+    overflow: hidden;
 }
 
 body {
@@ -24,12 +25,45 @@ body {
     
     color: var(--text-color);
     background-color: var(--back-color);
+
+    /* We want no vertical scrolling of whole popup when too many groups are in the list. 
+       We make the popup a flex container with max height, header and toolbar take some vertical space,
+       rest goes to a scrollable list. */
+    box-sizing: border-box;
+    width: 100%;
+    max-height: var(--max-popup-height); 
+
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
 }
 
 div#header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+div#toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    margin: 0.3em 0;
+    width: 16em
+}
+
+div#header,
+div#toolbar {
+    flex: 0 0 auto;   /* fixed to their natural content height */
+}
+
+div#scrollArea {
+    flex: 1 1 auto;   /* takes up all remaining space, whatever that is */
+    min-height: 0;    /* allows flex children to shrink below content size */
+
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 span#status {
@@ -43,6 +77,9 @@ ul#tabGroupsList {
     column-gap: 0.5em;
     padding-left: 0px;
     margin: 0.5rem 0;
+
+    box-sizing: border-box;
+    width: 100%;
 }
 
 #tabGroupsList li {                
@@ -97,14 +134,6 @@ span#info-btn:before {
     border-radius: 50%;
     width: 1em;
     height: 1em;
-}
-
-div#toolbar {
-    display: flex;
-    align-items: center;
-    gap: 0.4em;
-    margin: 0.3em 0;
-    width: 16em
 }
 
 /* About dialog */ 

@@ -39,3 +39,4 @@ As of late 2023:
 - Group pinning: pin some groups so they stay on top of the list on fixed positions. Useful when "working" with only several groups during session to save time looking for them in the list or using search (also with planned *add* button when doing tabs *cleanup*).
 - With a lot of groups assigning tabs to groups from browser's native context menu is painful - takes ages to find the group and the position in the list also changes (tries to be helpful by moving recently used to top). Solution: Allow assigning tabs in our extension (on hover show some *add* button) - helpful together with search/filter and group pinning.
 - Dark mode
+
