@@ -14,6 +14,7 @@ In a nutshell:
 - Shows a list of all tab groups across all browser windows.
 - On a click navigates to the selected group.
 - Only groups are involved, no tabs get in the way. No group management either.
+- Groups can be filtered and sorted. 
 - Extension is for Chromium based browsers that support tab groups.
 
 ## Browser Support
@@ -31,8 +32,8 @@ As of late 2023:
   **Implemented now with auto switching**, nice would be also explicit user options: auto, single, two, three columns.
 - ~~When switching to group A: if the currently active tab in window is part of group A,
   do not activate the first tab of group A - keep the current one active.~~ **Done**
-- Sorting: at least switch between default and alphabetical.
-- Search or highlight or filter list by group title.
+- ~~Sorting: at least switch between default and alphabetical.~~ **Done**
+- ~~Search or highlight or filter list by group title.~~ **Done**
 - Default + Compact + EasyToClick view: user option to fit even more stuff in popup or in opposite direction make text and items bigger for easier clicking or touches.
 - User Settings: set in the popup or in the extension's context menu and remember user's choices between sessions.
 - Group pinning: pin some groups so they stay on top of the list on fixed positions. Useful when "working" with only several groups during session to save time looking for them in the list or using search (also with planned *add* button when doing tabs *cleanup*).

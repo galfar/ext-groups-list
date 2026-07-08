@@ -29,6 +29,7 @@ body {
 div#header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 span#status {
@@ -54,6 +55,11 @@ ul#tabGroupsList {
     border-radius: 6px;
     border: solid 1px color-mix(in srgb, var(--group-color) 20%, var(--back-color));    
     border-left: var(--left-border-def);
+}
+
+#tabGroupsList li.dimmed {
+    opacity: 0.15;
+    pointer-events: none;
 }
 
 #tabGroupsList li span.title {                
@@ -93,6 +99,16 @@ span#info-btn:before {
     height: 1em;
 }
 
+div#toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    margin: 0.3em 0;
+    width: 16em
+}
+
+/* About dialog */ 
+
 dialog {    
     flex-direction: column;
     align-items: center;
@@ -126,4 +142,65 @@ dialog form {
     margin-top: 0.7em;
     font-size: large;
     text-align: end;
+}
+
+/* Search input field */ 
+
+input#search-input {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+
+    height: 2.0em;
+    margin: 0;
+    padding: 0.25em 0.5em;
+
+    font-size: 85%;
+    font-family: inherit;
+    color: var(--text-color);
+
+    background-color: var(--back-color);
+    border: solid 1px color-mix(in srgb, gray 30%, var(--back-color));
+    border-radius: 6px;
+
+    outline: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+input#search-input::placeholder {
+    color: var(--subdued-text-color);
+}
+
+input#search-input:focus {
+    border-color: cornflowerblue;
+    background-color: color-mix(in srgb, cornflowerblue 5%, var(--back-color));
+}
+
+/* Sort button */
+
+button#sort-btn {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+
+    width: 2.4em;
+    height: 2.0em;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 80%;
+    font-family: inherit;
+    line-height: 1;
+
+    padding: 0;
+    border: solid 1px color-mix(in srgb, gray 30%, var(--back-color));
+    border-radius: 6px;
+    background-color: var(--back-color);
+    color: var(--subdued-text-color);
+    cursor: pointer;
+}
+
+button#sort-btn:hover {
+    background-color: color-mix(in srgb, cornflowerblue 10%, var(--back-color));
+    border-color: cornflowerblue;
 }

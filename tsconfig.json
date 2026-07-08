@@ -6,8 +6,8 @@
     "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,    
     "lib": ["ES2020", "DOM"],
     "forceConsistentCasingInFileNames": true
   },

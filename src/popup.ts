@@ -1,16 +1,10 @@
 /// <reference path="../types/chrome.d.ts" />
 
+import { getElementByIdStrict, pluralize, getStoredFilterText, setStoredFilterText, SortMode, getSortPreference, setSortPreference } from "./utils.js";
+
 // Maps a tab group's id to the list of tabs currently inside that group.
 // Populated once per popup open in buildGroupsListing().
 let tabsOfGroups: Record<number, chrome.tabs.Tab[]> = {};
-
-function getElementByIdStrict<T extends HTMLElement>(id: string): T {
-    const elem = document.getElementById(id);
-    if (!elem) {
-        throw new Error(`Element with id "${id}" not found`);
-    }
-    return elem as T;
-}
 
 getElementByIdStrict<HTMLSpanElement>("info-btn").onclick = () => {
     getElementByIdStrict<HTMLDialogElement>("dialog").showModal();
@@ -33,18 +27,23 @@ async function buildGroupsListing(): Promise<void> {
         return;
     }
 
-    const tabGroups = await chrome.tabGroups.query({});
+    const sortMode = await getSortPreference();
+    updateSortButtonLabel(sortMode);
+
+    const tabGroups = await chrome.tabGroups.query({ });
+    const sortedGroups = sortGroups(tabGroups, sortMode);
 
     // Get tabs in the group - for showing the count and to be able to
     // activate some tab when the group list item is clicked.
     // Fetch tabs for all groups in parallel (Promise.all preserves order).
+
     const tabsPerGroup = await Promise.all(
-        tabGroups.map(group => chrome.tabs.query({ groupId: group.id }))
+        sortedGroups.map(group => chrome.tabs.query({ groupId: group.id }))
     );
-    tabGroups.forEach((group, index) => {
+    sortedGroups.forEach((group, index) => {
         tabsOfGroups[group.id] = tabsPerGroup[index];
     });
-
+   
     const groupedTabCount = Object.values(tabsOfGroups).reduce(
         (count, tabs) => count + tabs.length,
         0
@@ -56,12 +55,14 @@ async function buildGroupsListing(): Promise<void> {
     statusElem.textContent = statusText;
 
     const tabGroupsListElem = getElementByIdStrict<HTMLUListElement>("tabGroupsList");
-    for (const group of tabGroups) {
+    for (const group of sortedGroups) {
         const listItem = createGroupListItem(group);
         tabGroupsListElem.appendChild(listItem);
     }
 
     adjustDisplayModeIfNeeded();
+    syncToolbarWidthToListItem();
+    await restoreFilterState();
 }
 
 function createGroupListItem(group: chrome.tabGroups.TabGroup): HTMLLIElement {
@@ -139,7 +140,79 @@ function adjustDisplayModeIfNeeded(): void {
     }
 }
 
-function pluralize(count: number, noun: string): string {
-    const pluralSuffix = "s";
-    return `${count} ${noun}${count !== 1 ? pluralSuffix : ""}`;
+function syncToolbarWidthToListItem(): void {
+    const toolbar = getElementByIdStrict<HTMLDivElement>("toolbar");
+    const firstListItem = document.querySelector<HTMLLIElement>("#tabGroupsList li");
+
+    // Set the toolbar width to match the first list item width, 
+    // so that the filter input and sort button align with the list items.
+    if (firstListItem) {
+        const width = firstListItem.getBoundingClientRect().width;
+        toolbar.style.width = `${width}px`;
+    } else {
+        toolbar.style.removeProperty("width");
+    }
 }
+
+// Filtering  ------------------- 
+
+function applyFilter(query: string) {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    document.querySelectorAll<HTMLLIElement>("#tabGroupsList li").forEach(listItem => {
+        const titleElem = listItem.querySelector<HTMLSpanElement>(".title");
+        const title = titleElem?.textContent?.toLowerCase() ?? "";
+        const matches = !normalizedQuery || title.includes(normalizedQuery);
+
+        listItem.classList.toggle("dimmed", !matches);
+    });
+}
+
+const searchInput = getElementByIdStrict<HTMLInputElement>("search-input");
+
+searchInput.addEventListener("input", () => {
+    const query = searchInput.value;
+    applyFilter(query);
+    setStoredFilterText(query);
+});
+
+async function restoreFilterState(): Promise<void> {
+    const filterText = await getStoredFilterText();
+    if (filterText) {
+        searchInput.value = filterText;
+        applyFilter(filterText);
+    }
+}
+
+// Sorting -------------------
+
+const sortButton = getElementByIdStrict<HTMLButtonElement>("sort-btn");
+
+sortButton.addEventListener("click", async () => {
+    const currentMode = await getSortPreference();
+    const nextMode: SortMode = currentMode === "default" ? "alphabetical" : "default";
+    await setSortPreference(nextMode);
+
+    getElementByIdStrict<HTMLUListElement>("tabGroupsList").innerHTML = "";
+    await buildGroupsListing();
+});
+
+function updateSortButtonLabel(currentMode: SortMode) {
+    const nextLabel = currentMode === "default" ? "A↓Z" : "↕";
+    const nextTooltip = currentMode === "default"
+        ? "Sort alphabetically"
+        : "Sort in default order";
+
+    sortButton.textContent = nextLabel;
+    sortButton.title = nextTooltip;
+}
+
+function sortGroups(tabGroups: chrome.tabGroups.TabGroup[], mode: SortMode): chrome.tabGroups.TabGroup[] {
+    if (mode === "alphabetical") {
+        return [...tabGroups].sort((a, b) =>
+            (a.title ?? "").localeCompare(b.title ?? "")
+        );
+    }
+    return tabGroups;
+}
+
