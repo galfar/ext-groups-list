@@ -1,6 +1,6 @@
 /// <reference path="../types/chrome.d.ts" />
 
-import { getElementByIdStrict, pluralize, getStoredFilterText, setStoredFilterText, SortMode, getSortPreference, setSortPreference } from "./utils.js";
+import { getElementByIdStrict, pluralize, getStoredFilterText, setStoredFilterText, SortMode, getSortPreference, setSortPreference, getExtensionVersion } from "./utils.js";
 
 // Maps a tab group's id to the list of tabs currently inside that group.
 // Populated once per popup open in buildGroupsListing().
@@ -9,6 +9,8 @@ let tabsOfGroups: Record<number, chrome.tabs.Tab[]> = {};
 getElementByIdStrict<HTMLSpanElement>("info-btn").onclick = () => {
     getElementByIdStrict<HTMLDialogElement>("dialog").showModal();
 };
+getElementByIdStrict<HTMLSpanElement>("version-label").textContent =
+    `v${getExtensionVersion()}`;
 
 buildGroupsListing();
 

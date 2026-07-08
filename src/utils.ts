@@ -13,6 +13,10 @@ export function pluralize(count: number, noun: string): string {
     return `${count} ${noun}${count !== 1 ? pluralSuffix : ""}`;
 }
 
+export function getExtensionVersion(): string {
+    return chrome.runtime.getManifest().version;
+}
+
 interface SessionStorageSchema {
     filterText?: string; 
 }
